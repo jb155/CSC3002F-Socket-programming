@@ -42,6 +42,7 @@ public class GetRequestProcessor extends RequestProcessor {
                 response.setBody(content);
                 System.out.println ("GR 5");
                 response.setStatus(HTTPStatus.OK);
+                System.out.println ("GR 6");
             } else {
                 response.setStatus(HTTPStatus.NOT_FOUND);
             }

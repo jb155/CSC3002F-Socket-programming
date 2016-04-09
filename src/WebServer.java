@@ -1,4 +1,3 @@
-import java.io.FileOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -38,7 +37,8 @@ public class WebServer {
                 System.out.println("getRequestProcessor");
                 Response response = getRequestProcessor.process(Request.parse(socket.getInputStream()));
                 System.out.println("Response\nArgv size: " + argv.length);
-                response.send(new FileOutputStream(argv[1]), response);
+                //response.send(new FileOutputStream(argv[1]), response);
+                response.send(socket.getOutputStream(), response);
                 System.out.println("Send Response");
             } catch (Exception e) {
                 System.out.println("Something went seriously wrong in WebServer\n" + e);

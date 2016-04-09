@@ -5,8 +5,6 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.sun.xml.internal.messaging.saaj.packaging.mime.util.ASCIIUtility.getBytes;
-
 //
 /**
  * 
@@ -89,55 +87,43 @@ public class Response extends Message {
         SimpleDateFormat ft = new SimpleDateFormat ("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
 
         System.out.println ("send 2");
-        String httpResponse = response.getHTTPVersion() + " " + response.getStatus() +"\n" +
-                "Date: " + ft.format(dNow) + "\n" +
-                "Connection: Closed\n";
+        //String httpResponse = response.getHTTPVersion() + " " + response.getStatus() +"\n" +"Date: " + ft.format(dNow) + "\n" +"Connection: Closed\n";
+        String httpResponse = "";
         System.out.println ("send 3");
+
+        String docType ="<!doctype html public \"-//w3c//dtd html 4.0 " +"transitional//en\">\n";
+        httpResponse+= docType;
+
         if(response.getStatus()==HTTPStatus.NOT_FOUND){
-            httpResponse+="Content-Length: 230\n" +
-                    "Connection: Closed\n" +
-                    "Content-Type: text/html; charset=iso-8859-1\n" +
-                    "\n" +
-                    "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n" +
-                    "<html>\n" +
-                    "<head>\n" +
-                    "   <title>404 Not Found</title>\n" +
-                    "</head>\n" +
-                    "<body>\n" +
-                    "   <h1>Not Found</h1>\n" +
-                    "   <p>The requested URL /t.html was not found on this server.</p>\n" +
-                    "</body>\n" +
-                    "</html>";
+            /*String title =  "404 File not Found";
+            httpResponse += "<html>\n" +"<head><title>" + title + "</title></head>\n"+"<body bgcolor=\"#f0f0f0\">\n" +
+                    "<h1 align=\"center\">" + title + "</h1>\n" +
+                    "<p>The requested URL /t.html was not found on this server.</p>\n";*/
+            httpResponse = "404 File Not Found";
+
+            output.write(httpResponse.getBytes("UTF-8"));
         }else if(response.getStatus()==HTTPStatus.BAD_REQUEST){
-            httpResponse += "Content-Length: 230\n" +
-                    "Content-Type: text/html; charset=iso-8859-1\n" +
-                    "Connection: Closed\n" +
-                    "\n" +
-                    "  \n" +
-                    "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n" +
-                    "<html>\n" +
-                    "<head>\n" +
-                    "   <title>400 Bad Request</title>\n" +
-                    "</head>\n" +
-                    "<body>\n" +
-                    "   <h1>Bad Request</h1>\n" +
-                    "   <p>Your browser sent a request that this server could not understand.</p>\n" +
-                    "   <p>The request line contained invalid characters following the protocol string.</p>\n" +
-                    "</body>\n" +
-                    "</html>";
+            /*String title = "400 Bad Request";
+            httpResponse += "<html>\n" +"<head><title>" + title + "</title></head>\n"+"<body bgcolor=\"#f0f0f0\">\n" +
+                    "<h1 align=\"center\">" + title + "</h1>\n" +
+                    "<p>Your browser sent a request that this server could not understand.</p>" +
+                    "<p>The request line contained invalid characters following the protocol string.</p>\n";*/
+            httpResponse = "400 Bad Request";
+
+            output.write(httpResponse.getBytes("UTF-8"));
         }else{
-            httpResponse += "Content-Type: text/html\n" +
-                    "Content-Length: " + getBytes(response.bodyInput) + "\r\n"+
-                    "\n" +
-                    "<html>\n" +
-                    "<body>\n" +
-                    "<h1>" + response.bodyInput + "</h1>\n" +
-                    "</body>\n" +
-                    "</html>";
+           /* String title = "200 OK";
+            httpResponse += "<html>\n" +"<head><title>" + title + "</title></head>\n"+"<body bgcolor=\"#f0f0f0\">\n" +
+                    "<h1 align=\"center\">" + title + "</h1>\n" +
+                    "<p>" + response.bodyInput +"</p>\n";*/
+            output.write(response.getStartLine().getBytes());
+            output.write("\r\n\r\n".getBytes());
+            int line;
+            while((line = response.bodyInput.read())!=-1){output.write(line);}
         }
 
-
-        output.write(httpResponse.getBytes("UTF-8"));
+        output.flush();
+        output.close();
     }
 
 }
