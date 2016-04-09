@@ -1,0 +1,8 @@
+-run program
+
+-in web browser of choice tipe
+http://localhost:8080/<adress to project>\src\<filename you want>
+
+-test files are located in the src/ file of this project
+response.txt
+test.png

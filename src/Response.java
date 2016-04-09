@@ -91,15 +91,18 @@ public class Response extends Message {
         String httpResponse = "";
         System.out.println ("send 3");
 
-        String docType ="<!doctype html public \"-//w3c//dtd html 4.0 " +"transitional//en\">\n";
-        httpResponse+= docType;
+        // Start sending our reply, using the HTTP 1.1 protocol
+        httpResponse+=("HTTP/1.1 200 \r\n"); // Version & status code
+        httpResponse+=("Content-Type: text/plain\r\n"); // The type of data
+        httpResponse+=("Connection: close\r\n"); // Will close stream
+        httpResponse+=("\r\n"); // End of headers
 
         if(response.getStatus()==HTTPStatus.NOT_FOUND){
             /*String title =  "404 File not Found";
             httpResponse += "<html>\n" +"<head><title>" + title + "</title></head>\n"+"<body bgcolor=\"#f0f0f0\">\n" +
                     "<h1 align=\"center\">" + title + "</h1>\n" +
                     "<p>The requested URL /t.html was not found on this server.</p>\n";*/
-            httpResponse = "404 File Not Found";
+            httpResponse += "404 File Not Found";
 
             output.write(httpResponse.getBytes("UTF-8"));
         }else if(response.getStatus()==HTTPStatus.BAD_REQUEST){
@@ -108,7 +111,7 @@ public class Response extends Message {
                     "<h1 align=\"center\">" + title + "</h1>\n" +
                     "<p>Your browser sent a request that this server could not understand.</p>" +
                     "<p>The request line contained invalid characters following the protocol string.</p>\n";*/
-            httpResponse = "400 Bad Request";
+            httpResponse += "400 Bad Request";
 
             output.write(httpResponse.getBytes("UTF-8"));
         }else{
@@ -117,7 +120,7 @@ public class Response extends Message {
                     "<h1 align=\"center\">" + title + "</h1>\n" +
                     "<p>" + response.bodyInput +"</p>\n";*/
             output.write(response.getStartLine().getBytes());
-            output.write("\r\n\r\n".getBytes());
+            output.write("\r\n\r\n".getBytes()); // \r\n\r\n is a line separator and formats your http response correctly
             int line;
             while((line = response.bodyInput.read())!=-1){output.write(line);}
         }
