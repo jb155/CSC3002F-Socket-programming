@@ -27,8 +27,8 @@ public class WebServer {
 		int port = argv.length>0 ?(new Integer(argv[0])).intValue():0;      //defaults to 0..ie makes port whatever is open
         //Start listening to the port
         System.out.println ("Waiting");
-        //ServerSocket serverSocket = new ServerSocket(port);
-        ServerSocket serverSocket = new ServerSocket(8080);
+        ServerSocket serverSocket = new ServerSocket(port);
+        //ServerSocket serverSocket = new ServerSocket(8080);
         while (true) {
             try {
                 Socket socket = serverSocket.accept();

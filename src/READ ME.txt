@@ -1,6 +1,8 @@
 -run program
 
--in web browser of choice tipe
+//Web browser route
+-comment line 30 and uncomment line 31 in WebServer.java
+-in web browser of choice tipe (windows '\', linux '/')
 http://localhost:8080/<adress to project>\src\<filename you want>
 
 -test files are located in the src/ file of this project

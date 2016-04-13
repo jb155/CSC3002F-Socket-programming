@@ -91,13 +91,12 @@ public class Response extends Message {
         String httpResponse = "";
         System.out.println ("send 3");
 
-        // Start sending our reply, using the HTTP 1.1 protocol
-        httpResponse+=("HTTP/1.1 200 \r\n"); // Version & status code
-        httpResponse+=("Content-Type: text/plain\r\n"); // The type of data
-        httpResponse+=("Connection: close\r\n"); // Will close stream
-        httpResponse+=("\r\n"); // End of headers
-
         if(response.getStatus()==HTTPStatus.NOT_FOUND){
+            // Start sending our reply, using the HTTP 1.1 protocol
+            httpResponse+=("HTTP/1.1 404 \r\n"); // Version & status code
+            httpResponse+=("Content-Type: text/plain\r\n"); // The type of data
+            httpResponse+=("Connection: close\r\n"); // Will close stream
+            httpResponse+=("\r\n"); // End of headers
             /*String title =  "404 File not Found";
             httpResponse += "<html>\n" +"<head><title>" + title + "</title></head>\n"+"<body bgcolor=\"#f0f0f0\">\n" +
                     "<h1 align=\"center\">" + title + "</h1>\n" +
@@ -106,6 +105,11 @@ public class Response extends Message {
 
             output.write(httpResponse.getBytes("UTF-8"));
         }else if(response.getStatus()==HTTPStatus.BAD_REQUEST){
+            // Start sending our reply, using the HTTP 1.1 protocol
+            httpResponse+=("HTTP/1.1 400 \r\n"); // Version & status code
+            httpResponse+=("Content-Type: text/plain\r\n"); // The type of data
+            httpResponse+=("Connection: close\r\n"); // Will close stream
+            httpResponse+=("\r\n"); // End of headers
             /*String title = "400 Bad Request";
             httpResponse += "<html>\n" +"<head><title>" + title + "</title></head>\n"+"<body bgcolor=\"#f0f0f0\">\n" +
                     "<h1 align=\"center\">" + title + "</h1>\n" +
@@ -115,6 +119,11 @@ public class Response extends Message {
 
             output.write(httpResponse.getBytes("UTF-8"));
         }else{
+            // Start sending our reply, using the HTTP 1.1 protocol
+            httpResponse+=("HTTP/1.1 200 \r\n"); // Version & status code
+            httpResponse+=("Content-Type: text/plain\r\n"); // The type of data
+            httpResponse+=("Connection: close\r\n"); // Will close stream
+            httpResponse+=("\r\n"); // End of headers
            /* String title = "200 OK";
             httpResponse += "<html>\n" +"<head><title>" + title + "</title></head>\n"+"<body bgcolor=\"#f0f0f0\">\n" +
                     "<h1 align=\"center\">" + title + "</h1>\n" +
